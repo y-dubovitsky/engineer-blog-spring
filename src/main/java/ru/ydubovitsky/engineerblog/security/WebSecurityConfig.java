@@ -19,8 +19,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements WebMvcConfigurer {
+@EnableGlobalMethodSecurity(prePostEnabled = true) //TODO ?
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
@@ -30,6 +30,30 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements W
 
     @Autowired
     private JwtRequestFilter jwtRequestFilter;
+
+    @Override
+    protected void configure(HttpSecurity httpSecurity) throws Exception {
+        // We don't need CSRF for this example
+        httpSecurity
+                .cors()
+                .and()
+                .csrf().disable()
+                // dont authenticate this particular request
+                .authorizeRequests().antMatchers(
+                "/authenticate",
+                "/register",
+                "/api/post/all"
+        ).permitAll().
+                // all other requests need to be authenticated
+                        anyRequest().authenticated().and().
+                // make sure we use stateless session; session won't be used to
+                // store user's state.
+                        exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
+        // Add a filter to validate the tokens with every request
+        httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+    }
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
@@ -48,33 +72,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements W
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
-    }
-
-    @Override
-    protected void configure(HttpSecurity httpSecurity) throws Exception {
-        // We don't need CSRF for this example
-        httpSecurity.csrf().disable()
-                // dont authenticate this particular request
-                .authorizeRequests().antMatchers(
-                "/authenticate",
-                "/register",
-                "/api/post/all"
-        ).permitAll().
-                // all other requests need to be authenticated
-                        anyRequest().authenticated().and().
-                // make sure we use stateless session; session won't be used to
-                // store user's state.
-                        exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-
-        // Add a filter to validate the tokens with every request
-        httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
-    }
-
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**")
-                .allowedOrigins("http://localhost:3000")
-                .allowedMethods("*");
     }
 }

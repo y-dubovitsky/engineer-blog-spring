@@ -10,7 +10,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/post")
-@CrossOrigin
 public class PostController {
 
     private PostService postService;

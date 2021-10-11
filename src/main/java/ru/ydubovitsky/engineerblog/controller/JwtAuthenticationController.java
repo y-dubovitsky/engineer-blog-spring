@@ -16,7 +16,6 @@ import ru.ydubovitsky.engineerblog.service.JwtUserDetailsService;
 import ru.ydubovitsky.engineerblog.service.UserService;
 
 @RestController
-@CrossOrigin
 public class JwtAuthenticationController {
 
     @Autowired
