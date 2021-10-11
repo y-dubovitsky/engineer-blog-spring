@@ -8,10 +8,12 @@ import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+import ru.ydubovitsky.engineerblog.dto.UserDto;
 import ru.ydubovitsky.engineerblog.entity.JwtRequest;
 import ru.ydubovitsky.engineerblog.entity.JwtResponse;
 import ru.ydubovitsky.engineerblog.security.JwtTokenUtil;
 import ru.ydubovitsky.engineerblog.service.JwtUserDetailsService;
+import ru.ydubovitsky.engineerblog.service.UserService;
 
 @RestController
 @CrossOrigin
@@ -19,6 +21,9 @@ public class JwtAuthenticationController {
 
     @Autowired
     private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private UserService userService;
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
@@ -37,6 +42,11 @@ public class JwtAuthenticationController {
         final String token = jwtTokenUtil.generateToken(userDetails);
 
         return ResponseEntity.ok(new JwtResponse(token));
+    }
+
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    public ResponseEntity<?> saveUser(@RequestBody UserDto userDto) throws Exception {
+        return ResponseEntity.ok(userService.save(userDto));
     }
 
     private void authenticate(String username, String password) throws Exception {
