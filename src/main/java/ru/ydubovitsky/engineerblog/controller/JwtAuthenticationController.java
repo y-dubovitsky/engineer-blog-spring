@@ -9,8 +9,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import ru.ydubovitsky.engineerblog.dto.UserDto;
-import ru.ydubovitsky.engineerblog.entity.JwtRequest;
-import ru.ydubovitsky.engineerblog.entity.JwtResponse;
+import ru.ydubovitsky.engineerblog.payload.request.JwtRequest;
+import ru.ydubovitsky.engineerblog.payload.response.JwtResponse;
 import ru.ydubovitsky.engineerblog.security.JwtTokenUtil;
 import ru.ydubovitsky.engineerblog.service.JwtUserDetailsService;
 import ru.ydubovitsky.engineerblog.service.UserService;
@@ -40,7 +40,7 @@ public class JwtAuthenticationController {
 
         final String token = jwtTokenUtil.generateToken(userDetails);
 
-        return ResponseEntity.ok(new JwtResponse(token));
+        return ResponseEntity.ok(new JwtResponse(token, userDetails.getUsername()));
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
