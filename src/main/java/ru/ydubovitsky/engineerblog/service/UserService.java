@@ -25,7 +25,6 @@ public class UserService {
 
     public User save(UserDto userDto) {
         User user = new User();
-        user.setRoles(userDto.getRoles());
         user.setUsername(userDto.getUsername());
         user.setPassword(bcryptEncoder.encode(userDto.getPassword()));
         return userRepository.save(user);

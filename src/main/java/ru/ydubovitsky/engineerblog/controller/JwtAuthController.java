@@ -1,6 +1,5 @@
 package ru.ydubovitsky.engineerblog.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -21,17 +20,20 @@ import ru.ydubovitsky.engineerblog.service.UserService;
 @RestController
 public class JwtAuthController {
 
-    @Autowired
     private AuthenticationManager authenticationManager;
 
-    @Autowired
     private UserService userService;
 
-    @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
-    @Autowired
     private UserDetailsServiceImpl userDetailsService;
+
+    public JwtAuthController(AuthenticationManager authenticationManager, UserService userService, JwtTokenUtil jwtTokenUtil, UserDetailsServiceImpl userDetailsService) {
+        this.authenticationManager = authenticationManager;
+        this.userService = userService;
+        this.jwtTokenUtil = jwtTokenUtil;
+        this.userDetailsService = userDetailsService;
+    }
 
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
@@ -43,7 +45,10 @@ public class JwtAuthController {
 
         final String token = jwtTokenUtil.generateToken(userDetails);
 
-        return ResponseEntity.ok(new JwtResponse(token, userDetails.getUsername()));
+        UserDto userDto = new UserDto(); //TODO Подумать как улучшить
+        userDto.setUsername(userDetails.getUsername());
+
+        return ResponseEntity.ok(new JwtResponse(token, userDto));
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
