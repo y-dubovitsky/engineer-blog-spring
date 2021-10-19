@@ -26,7 +26,7 @@ public class PostController {
     }
 
     @PostMapping("/add")
-    @Secured("ROLE_USER") //! Важно, что роли должны начинаться со строки ROLE!
+//    @Secured("ROLE_USER") //! Важно, что роли должны начинаться со строки ROLE!
     public ResponseEntity<Object> addPost(@RequestBody PostDto postDto) {
         Post post = new Post();
         post.setTitle(postDto.getTitle());

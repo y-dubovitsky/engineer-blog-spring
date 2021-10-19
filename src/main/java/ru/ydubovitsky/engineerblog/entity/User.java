@@ -1,17 +1,15 @@
 package ru.ydubovitsky.engineerblog.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
-import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
 @Table(name = "user_table")
-@Data
+@Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class User {
@@ -33,7 +31,6 @@ public class User {
     @JsonIgnore
     private String password;
 
-
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
             name = "users_roles",
@@ -41,4 +38,12 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private Set<Role> roles;
+
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "user_university", // Имя создаваемой таблицы
+            joinColumns = @JoinColumn(name = "user_id"), // Колонка 1
+            inverseJoinColumns = @JoinColumn(name = "university_id")) // Колонка 2
+    private List<University> universities;
 }

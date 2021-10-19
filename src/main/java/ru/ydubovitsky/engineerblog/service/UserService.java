@@ -22,12 +22,20 @@ public class UserService {
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
-
+    //FIXME Два метода сохранения?
     public User save(UserDto userDto) {
         User user = new User();
         user.setUsername(userDto.getUsername());
         user.setPassword(bcryptEncoder.encode(userDto.getPassword()));
         return userRepository.save(user);
+    }
+
+    public User saveUser(User user) {
+        return userRepository.save(user);
+    }
+
+    public User getUserByUsername(String username) {
+        return userRepository.findByUsername(username);
     }
 
 }
