@@ -39,11 +39,14 @@ public class User {
     )
     private Set<Role> roles;
 
-    @JsonIgnore
+    @JsonIgnore //TODO Зачем нужна она?
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_university", // Имя создаваемой таблицы
             joinColumns = @JoinColumn(name = "user_id"), // Колонка 1
             inverseJoinColumns = @JoinColumn(name = "university_id")) // Колонка 2
     private List<University> universities;
+
+    @OneToMany(mappedBy="user") // user - имя сущности!
+    private List<Work> works;
 }
