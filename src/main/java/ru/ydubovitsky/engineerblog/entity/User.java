@@ -49,4 +49,7 @@ public class User {
 
     @OneToMany(mappedBy="user") // user - имя сущности!
     private List<Work> works;
+
+    @OneToMany(mappedBy = "user")
+    private Set<Skill> skills;
 }
