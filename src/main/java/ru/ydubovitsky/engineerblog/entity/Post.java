@@ -1,11 +1,15 @@
 package ru.ydubovitsky.engineerblog.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 
 @Entity
-@Data
+@Getter
+@Setter
 @Table(name = "post_table")
 public class Post {
 
@@ -18,5 +22,10 @@ public class Post {
 
     @Column
     private String description;
+
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name="user_id", nullable=false)
+    private User user;
 
 }

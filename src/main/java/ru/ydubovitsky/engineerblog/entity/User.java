@@ -1,7 +1,10 @@
 package ru.ydubovitsky.engineerblog.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
@@ -31,7 +34,7 @@ public class User {
     @JsonIgnore
     private String password;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @JoinTable(
             name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -50,6 +53,14 @@ public class User {
     @OneToMany(mappedBy="user") // user - имя сущности!
     private List<Work> works;
 
+    @OneToMany(mappedBy="user") // user - имя сущности!
+    private List<Post> posts;
+
     @OneToMany(mappedBy = "user")
     private Set<Skill> skills;
+
+    private boolean isAccountNonExpired = true;
+    private boolean isAccountNonLocked = true;
+    private boolean isCredentialsNonExpired = true;
+    private boolean isEnabled = true;
 }

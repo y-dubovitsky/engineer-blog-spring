@@ -5,7 +5,6 @@ import ru.ydubovitsky.engineerblog.dto.UniversityDto;
 import ru.ydubovitsky.engineerblog.entity.University;
 import ru.ydubovitsky.engineerblog.entity.User;
 import ru.ydubovitsky.engineerblog.repository.UniversityRepository;
-import ru.ydubovitsky.engineerblog.repository.UserRepository;
 
 import java.security.Principal;
 import java.util.List;
@@ -45,7 +44,7 @@ public class UniversityService {
         universityRepository.save(university);
 
         user.getUniversities().add(university);
-        userService.saveUser(user);
+        userService.add(user);
 
         return university;
     }
