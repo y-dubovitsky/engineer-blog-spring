@@ -1,11 +1,11 @@
 package ru.ydubovitsky.engineerblog.security.jwt.request;
 
-public class UsernameAndPasswordAuthReq {
+public class UsernameAndPasswordAuthRequest {
 
     private String username;
     private String password;
 
-    public UsernameAndPasswordAuthReq() {
+    public UsernameAndPasswordAuthRequest() {
     }
 
     public String getUsername() {

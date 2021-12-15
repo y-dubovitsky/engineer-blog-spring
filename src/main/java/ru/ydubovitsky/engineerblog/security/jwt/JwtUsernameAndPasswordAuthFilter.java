@@ -4,15 +4,17 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import ru.ydubovitsky.engineerblog.security.jwt.request.UsernameAndPasswordAuthReq;
+import ru.ydubovitsky.engineerblog.security.jwt.request.UsernameAndPasswordAuthRequest;
+import ru.ydubovitsky.engineerblog.security.jwt.response.AuthResponse;
 
 import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -35,8 +37,8 @@ public class JwtUsernameAndPasswordAuthFilter extends UsernamePasswordAuthentica
             HttpServletResponse response
     ) throws AuthenticationException {
         try {
-            UsernameAndPasswordAuthReq authReq = new ObjectMapper()
-                    .readValue(request.getInputStream(), UsernameAndPasswordAuthReq.class);
+            UsernameAndPasswordAuthRequest authReq = new ObjectMapper()
+                    .readValue(request.getInputStream(), UsernameAndPasswordAuthRequest.class);
 
             Authentication authentication =
                     new UsernamePasswordAuthenticationToken(
@@ -56,7 +58,7 @@ public class JwtUsernameAndPasswordAuthFilter extends UsernamePasswordAuthentica
             HttpServletResponse response,
             FilterChain chain,
             Authentication authResult
-    ) throws IOException, ServletException {
+    ) throws IOException {
         String token = Jwts.builder()
                 .setSubject(authResult.getName())
                 .claim("authorities", authResult.getAuthorities())
@@ -66,5 +68,15 @@ public class JwtUsernameAndPasswordAuthFilter extends UsernamePasswordAuthentica
                 .compact();
 
         response.addHeader("Authorization", "Bearer " + token);
+        //! Возвращаем еще токен и в теле ответа
+        response.resetBuffer();
+        response.setStatus(HttpStatus.OK.value());
+        response.setHeader(HttpHeaders.CONTENT_TYPE, "application/json");
+        response.getOutputStream().print(
+                new ObjectMapper().writeValueAsString(
+                        new AuthResponse("Bearer " + token, authResult.getName())
+                )
+        );
+        response.flushBuffer();
     }
 }
