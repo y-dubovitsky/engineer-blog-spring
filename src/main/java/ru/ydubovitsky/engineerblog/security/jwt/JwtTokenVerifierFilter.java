@@ -1,4 +1,4 @@
-package ru.ydubovitsky.engineerblog.jwt;
+package ru.ydubovitsky.engineerblog.security.jwt;
 
 import com.google.common.base.Strings;
 import io.jsonwebtoken.Claims;

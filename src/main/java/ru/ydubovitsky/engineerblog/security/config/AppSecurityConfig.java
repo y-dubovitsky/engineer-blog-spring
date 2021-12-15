@@ -7,8 +7,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import ru.ydubovitsky.engineerblog.jwt.JwtTokenVerifierFilter;
-import ru.ydubovitsky.engineerblog.jwt.JwtUsernameAndPasswordAuthFilter;
+import ru.ydubovitsky.engineerblog.security.jwt.JwtTokenVerifierFilter;
+import ru.ydubovitsky.engineerblog.security.jwt.JwtUsernameAndPasswordAuthFilter;
 import ru.ydubovitsky.engineerblog.security.service.AppUserDetailsService;
 
 @Configuration
@@ -26,16 +26,10 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
-                .csrf().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .addFilter(new JwtUsernameAndPasswordAuthFilter(authenticationManager()))
-                .addFilterAfter(new JwtTokenVerifierFilter(), JwtUsernameAndPasswordAuthFilter.class)
-                .authorizeRequests()
-                .antMatchers("index", "/", "/home", "/api/user/**")
-                .permitAll()
-                .anyRequest()
-                .authenticated();
+        http.cors();
+        http.csrf().disable();
+        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        http.addFilter(new JwtUsernameAndPasswordAuthFilter(authenticationManager()));
+        http.addFilterAfter(new JwtTokenVerifierFilter(), JwtUsernameAndPasswordAuthFilter.class);
     }
 }

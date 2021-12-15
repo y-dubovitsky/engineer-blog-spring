@@ -1,4 +1,4 @@
-package ru.ydubovitsky.engineerblog.jwt.request;
+package ru.ydubovitsky.engineerblog.security.jwt.request;
 
 public class UsernameAndPasswordAuthReq {
 

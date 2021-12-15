@@ -1,4 +1,4 @@
-package ru.ydubovitsky.engineerblog.jwt;
+package ru.ydubovitsky.engineerblog.security.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Jwts;
@@ -9,7 +9,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import ru.ydubovitsky.engineerblog.jwt.request.UsernameAndPasswordAuthReq;
+import ru.ydubovitsky.engineerblog.security.jwt.request.UsernameAndPasswordAuthReq;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
