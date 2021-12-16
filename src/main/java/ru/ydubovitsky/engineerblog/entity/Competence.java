@@ -1,26 +1,21 @@
 package ru.ydubovitsky.engineerblog.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import javax.persistence.*;
 
+@Data
 @Entity
-@Getter @Setter
-@Table(name = "work_table")
-public class Work {
+@Table(name = "competence_table")
+public class Competence {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private String name;
-    private String position;
-    private Short startDate;
-    private Short endDate;
-    private String function;
-    private String achievements;
+    private String description;
 
     @JsonIgnore
     @ManyToOne

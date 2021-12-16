@@ -24,15 +24,17 @@ public class User {
     @Column(unique = true)
     private String username;
 
-    @Column(unique = true)
-    private String email;
-
-    @Column
-    private boolean enabled;
-
     @Column
     @JsonIgnore
     private String password;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "userAbout_id")
+    private UserAbout userAbout;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "contacts_id")
+    private Contacts contacts;
 
     @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @JoinTable(
@@ -41,6 +43,9 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private Set<Role> roles;
+
+    @OneToMany(mappedBy="user")
+    private Set<Competence> competences;
 
     @JsonIgnore //TODO Зачем нужна она?
     @ManyToMany(fetch = FetchType.EAGER)
@@ -58,6 +63,7 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private Set<Skill> skills;
+
 
     private boolean isAccountNonExpired = true;
     private boolean isAccountNonLocked = true;

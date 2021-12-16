@@ -3,11 +3,11 @@ package ru.ydubovitsky.engineerblog.security.jwt.response;
 public class AuthResponse {
 
     private String jwttoken;
-    private String user;
+    private String username;
 
     public AuthResponse(String jwttoken, String user) {
         this.jwttoken = jwttoken;
-        this.user = user;
+        this.username = user;
     }
 
     public String getJwttoken() {
@@ -18,11 +18,11 @@ public class AuthResponse {
         this.jwttoken = jwttoken;
     }
 
-    public String getUser() {
-        return user;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUser(String user) {
-        this.user = user;
+    public void setUsername(String username) {
+        this.username = username;
     }
 }
