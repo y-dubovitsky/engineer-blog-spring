@@ -31,5 +31,6 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.addFilter(new JwtUsernameAndPasswordAuthFilter(authenticationManager()));
         http.addFilterAfter(new JwtTokenVerifierFilter(), JwtUsernameAndPasswordAuthFilter.class);
+        http.authorizeRequests().antMatchers("/api/auth/register").permitAll();
     }
 }
