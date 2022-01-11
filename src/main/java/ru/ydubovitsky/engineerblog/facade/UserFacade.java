@@ -10,6 +10,7 @@ public class UserFacade {
     public static UserDto userToUserDto(User user) {
         UserDto userDto = new UserDto();
         userDto.setId(user.getId());
+        userDto.setGithubProfileName(user.getGithubProfileName());
         userDto.setUsername(user.getUsername());
         userDto.setContacts(user.getContacts());
         userDto.setUserAbout(user.getUserAbout());

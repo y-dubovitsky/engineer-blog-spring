@@ -28,6 +28,9 @@ public class User {
     @JsonIgnore
     private String password;
 
+    @Column
+    private String githubProfileName;
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "userAbout_id")
     private UserAbout userAbout;

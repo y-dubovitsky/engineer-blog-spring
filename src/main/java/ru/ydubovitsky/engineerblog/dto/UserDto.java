@@ -16,6 +16,7 @@ public class UserDto {
     private String password;
     private Contacts contacts;
     private UserAbout userAbout;
+    private String githubProfileName;
     private Set<Competence> competences;
     private List<University> universities;
     private List<Work> works;
