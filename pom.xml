@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>ru.y-dubovitsky</groupId>
-    <artifactId>engineer-blog-spring</artifactId>
+    <artifactId>employee-finder</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>engineer-blog-spring</name>
-    <description>Personal blog backend on Spring Boot</description>
+    <name>employee-finder</name>
+    <description>Service to find employers</description>
     <properties>
         <java.version>11</java.version>
     </properties>
