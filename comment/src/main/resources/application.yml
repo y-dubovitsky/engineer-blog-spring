@@ -1,0 +1,12 @@
+server:
+  port: 8081
+spring:
+  application:
+    name: comment
+  datasource:
+    username: postgres
+    password: postgres
+    url: jdbc:postgresql://localhost:5432/engineerBlogComment
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
